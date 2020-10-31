@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXColorPicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="root" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.examenfinalcliente.controllersView.VistaProyectosTareasController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Ventanas">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Inicio" />
+                  <Menu mnemonicParsing="false" text="Proyectos">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Ver" />
+                        <MenuItem mnemonicParsing="false" text="Crear" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Cobros">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Ver" />
+                        <MenuItem mnemonicParsing="false" text="Crear" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Población">
+                    <items>
+                  <MenuItem mnemonicParsing="false" text="Ver" />
+                      <MenuItem mnemonicParsing="false" text="Crear" />
+                    </items>
+                  </Menu>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Funciones">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Modificar" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Eliminar" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <VBox alignment="CENTER" prefHeight="405.0" prefWidth="880.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TreeTableView fx:id="tabla" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="353.0" VBox.vgrow="ALWAYS">
+              <columns>
+                <TreeTableColumn fx:id="proyectos" prefWidth="75.0" text="Proyectos" />
+                <TreeTableColumn fx:id="id" prefWidth="75.0" text="Id" />
+                  <TreeTableColumn fx:id="fechaInicio" prefWidth="75.0" text="Fecha Inicio" />
+                  <TreeTableColumn fx:id="fechaFinal" prefWidth="75.0" text="Fecha Final" />
+                  <TreeTableColumn fx:id="importancia" prefWidth="75.0" text="importancia" />
+                  <TreeTableColumn fx:id="urgencia" prefWidth="75.0" text="Urgencia" />
+                  <TreeTableColumn fx:id="prioridad" prefWidth="75.0" text="Prioridad" />
+                  <TreeTableColumn fx:id="avance" prefWidth="75.0" text="Avance (%)" />
+              </columns>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TreeTableView>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="640.0" spacing="50.0">
+         <children>
+            <JFXColorPicker prefHeight="30.0" prefWidth="150.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </JFXColorPicker>
+            <JFXTextField fx:id="ini" maxWidth="200.0" prefHeight="30.0" prefWidth="150.0" promptText="Rango Inicial" HBox.hgrow="ALWAYS" />
+            <JFXTextField maxWidth="200.0" prefHeight="30.0" prefWidth="150.0" promptText="Rango Final" HBox.hgrow="ALWAYS" />
+            <JFXButton alignment="CENTER" buttonType="RAISED" prefHeight="30.0" prefWidth="150.0" text="Guardar" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+  </children>
+</VBox>

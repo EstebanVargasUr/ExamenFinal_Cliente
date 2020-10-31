@@ -5,22 +5,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import org.una.examenfinalcliente.WebService.ProvinciaWebService;
+import org.una.examenfinalcliente.utility.FlowController;
 import org.una.examenfinalcliente.utility.FlowController;
 
 public class MenuGestionController extends Controller implements Initializable {
 
     @FXML
     private VBox root;
-
-    private ProvinciaWebService provinciaWebService;
     
     @Override
     public void initialize() {
@@ -38,12 +34,8 @@ public class MenuGestionController extends Controller implements Initializable {
     }  
 
     @FXML
-    private void proyectos(MouseEvent event) {
-        try {
-            System.out.println(provinciaWebService.getSumaCantidadPoblacionByProvinciaId(2));
-        } catch (InterruptedException | ExecutionException | IOException ex) {
-            Logger.getLogger(MenuGestionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void proyectos(MouseEvent event) throws InterruptedException, ExecutionException, JsonMappingException, IOException {
+        FlowController.getInstance().goView("VistaProyectosTareas");
     }
 
 
@@ -54,5 +46,6 @@ public class MenuGestionController extends Controller implements Initializable {
 
     @FXML
     private void cobros(MouseEvent event) {
+        FlowController.getInstance().goView("CobrosPendientes");
     }
 }
