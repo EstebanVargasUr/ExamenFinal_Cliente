@@ -100,6 +100,8 @@ public class CreacionPoblacionalController extends Controller implements Initial
             double num4 = Double.parseDouble(txtAreaCuadrada.getText());
             UnidadWebService.createUnidad(txtNombre.getText(), num,num2,num3,num4);
         }
+        
+        FlowController.getInstance().goView("CensoPoblacional");
     }
 
     private void cbAreaCrearAction(MouseEvent event) 

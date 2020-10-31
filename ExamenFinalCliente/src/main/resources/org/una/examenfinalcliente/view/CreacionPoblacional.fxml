@@ -105,7 +105,7 @@
                         <Font name="System Bold" size="26.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtAreaCuadrada" prefHeight="30.0" prefWidth="241.0" visible="false" />
+                  <TextField fx:id="txtAreaCuadrada" prefHeight="30.0" prefWidth="241.0" promptText="Decimales con punto ( . )" visible="false" />
                   <Label fx:id="lblPoblacion" alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="214.0" text="Poblacion" textAlignment="CENTER" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="26.0" />
