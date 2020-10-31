@@ -11,7 +11,6 @@ import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -38,15 +37,11 @@ public class ProyectoWebService {
         return proyectos;
     }
      
-    public static void createTarea(String descripcion, Date fechaInicio, Date fechaFinalizacion,
-    Short importancia, Short urgencia, Integer prioridad, Integer porcentajeAvance, ProyectoDTO proyecto) throws InterruptedException, ExecutionException, JsonProcessingException
+    public static void createProyecto(String nombre) throws InterruptedException, ExecutionException, JsonProcessingException
     {
         ProyectoDTO bean = new ProyectoDTO();
         
-        bean.setNombreProyecto(descripcion);
-        bean.setEncargado(descripcion);
-        bean.setFechaInicio(fechaInicio);
-        bean.setFechaFinalizacion(fechaFinalizacion);
+        bean.setNombreProyecto(nombre);
 
         String inputJson = JSONUtils.covertFromObjectToJson(bean);
         HttpRequest request = HttpRequest.newBuilder(URI.create(serviceURL+"/"))
@@ -57,7 +52,7 @@ public class ProyectoWebService {
 
     }
 
-    public static void updateTarea(ProyectoDTO bean, long id) throws InterruptedException, ExecutionException, IOException
+    public static void updateProyecto(ProyectoDTO bean, long id) throws InterruptedException, ExecutionException, IOException
     {
         String inputJson=JSONUtils.covertFromObjectToJson(bean);
         HttpRequest request = HttpRequest.newBuilder(URI.create(serviceURL+"/"+id))

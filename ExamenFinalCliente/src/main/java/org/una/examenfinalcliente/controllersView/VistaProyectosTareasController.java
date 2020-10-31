@@ -1,5 +1,6 @@
 package org.una.examenfinalcliente.controllersView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -9,17 +10,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javax.swing.JOptionPane;
 import org.una.examenfinalcliente.DTOs.ProyectoDTO;
 import org.una.examenfinalcliente.DTOs.TareaDTO;
 import org.una.examenfinalcliente.WebService.ProyectoWebService;
 import org.una.examenfinalcliente.WebService.TareaWebService;
+import org.una.examenfinalcliente.utility.FlowController;
 
 /**
  * FXML Controller class
@@ -30,8 +38,6 @@ public class VistaProyectosTareasController extends Controller implements Initia
 
     @FXML
     private VBox root;
-    @FXML
-    private JFXTextField ini;
     @FXML
     private TreeTableView<Modelo> tabla;
     @FXML
@@ -50,6 +56,20 @@ public class VistaProyectosTareasController extends Controller implements Initia
     private TreeTableColumn<Modelo, String> prioridad;
     @FXML
     private TreeTableColumn<Modelo, String> avance;
+    @FXML
+    private HBox selectorColor;
+    @FXML
+    private ColorPicker cp_color;
+    @FXML
+    private Label lbl_rangoInicial;
+    @FXML
+    private Label lbl_rangoFinal;
+    @FXML
+    private Label lbl_escojerColor;
+    @FXML
+    private JFXTextField txt_rangoInicial;
+    @FXML
+    private JFXTextField txt_rangoFinal;
 
      
     TreeItem<Modelo> ModeloProyecto = new TreeItem<>(new Modelo("Proyecto","-","-","-","-","-","-","-"));
@@ -58,7 +78,7 @@ public class VistaProyectosTareasController extends Controller implements Initia
     
     TreeItem<Modelo> proyecto;
     TreeItem<Modelo> tarea;
-    
+       
     void CargarDatosIniciales() throws InterruptedException, ExecutionException, IOException
     {
         List<ProyectoDTO> proyectosModel = ProyectoWebService.getAllProyectos();
@@ -85,8 +105,11 @@ public class VistaProyectosTareasController extends Controller implements Initia
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL url, ResourceBundle rb) { 
+        iniciar();
+    }     
+    
+    void iniciar(){
         try {
             CargarDatosIniciales();
             
@@ -105,13 +128,70 @@ public class VistaProyectosTareasController extends Controller implements Initia
             tabla.setShowRoot(false);
         
         } catch (InterruptedException | ExecutionException | IOException ex) { Logger.getLogger(VistaProyectosTareasController.class.getName()).log(Level.SEVERE, null, ex); }   
-    }     
+    }
     
     @Override
     public Node getRoot() {
         return root;
     }  
+
+    @FXML
+    void colorAvance(ActionEvent event) {
+        cp_color.setVisible(true);
+        lbl_escojerColor.setVisible(true);
+        lbl_rangoInicial.setVisible(true);
+        txt_rangoInicial.setVisible(true);
+        txt_rangoFinal.setPromptText("Digite el porcentaje Maximo");
+        lbl_rangoFinal.setText("Rango Final:");
+        selectorColor.setVisible(true);
+    }
+    
+    @FXML
+    void guardarColor(MouseEvent event) throws InterruptedException, ExecutionException, JsonProcessingException {
+        if(lbl_rangoFinal.getText().equals("Nombre Proyecto:")){
+            if(txt_rangoFinal.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Debe llenar el campos correspondiente");
+            }
+            else{
+                ProyectoWebService.createProyecto(txt_rangoFinal.getText());
+                JOptionPane.showMessageDialog(null, "Se ha creado correctamente el Proyecto");
+            }
+        }
+    }
+    
+    @FXML
+    private void cancelarColor(MouseEvent event) {
+        selectorColor.setVisible(false);
+    }
+    
+    @FXML
+    private void menu(ActionEvent event) {
+        FlowController.getInstance().goView("MenuGestion");
+    }
        
+    @FXML
+    void crearProyecto(ActionEvent event) {
+        cp_color.setVisible(false);
+        lbl_escojerColor.setVisible(false);
+        lbl_rangoInicial.setVisible(false);
+        txt_rangoInicial.setVisible(false);
+        txt_rangoFinal.setPromptText("Digite el nombre del proyecto");
+        lbl_rangoFinal.setText("Nombre Proyecto:");
+        selectorColor.setVisible(true);
+    }
+
+    @FXML
+    void crearTarea(ActionEvent event) {
+        FlowController.getInstance().goView("RegistroTarea");
+    }
+
+    @FXML
+    private void actualizar(MouseEvent event) {
+        tabla.getRoot().getChildren().clear();
+        iniciar();
+    }
+
+    
     public class Modelo {
 
         private SimpleStringProperty idProperty;
