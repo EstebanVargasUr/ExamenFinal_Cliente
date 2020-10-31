@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.una.examenfinalcliente.utility.JSONUtils;
 import org.una.examenfinalcliente.DTOs.DistritoDTO;
+import org.una.examenfinalcliente.DTOs.UnidadDTO;
 /**
  *
  * @author Adrian
@@ -35,8 +36,9 @@ public class DistritoWebService {
         response.join();
     }
 
-    public static void getDistritoById(long id) throws InterruptedException, ExecutionException, IOException
+    public static DistritoDTO getDistritoById(long id) throws InterruptedException, ExecutionException, IOException
     {
+        DistritoDTO bean = null;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findById/"+id)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -46,13 +48,14 @@ public class DistritoWebService {
 
         else
         {
-            DistritoDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), DistritoDTO.class);
+            bean = JSONUtils.covertFromJsonToObject(response.get().body(), DistritoDTO.class);
             System.out.println(bean);
         }
         response.join();
+        return bean;
     }
     
-    public static void getDistritoByNombreDistrito(String nombre) throws InterruptedException, ExecutionException, IOException
+    public static List<DistritoDTO> getDistritoByNombreDistrito(String nombre) throws InterruptedException, ExecutionException, IOException
     {
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByNombreDistritoAproximateIgnoreCase/"+nombre)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
@@ -60,10 +63,12 @@ public class DistritoWebService {
         List<DistritoDTO> distritos = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<DistritoDTO>>() {});
         distritos.forEach(System.out::println);
         response.join();
+        return distritos;
     }
     
-    public static void getDistritoByCodigoDistrito(Integer codigo) throws InterruptedException, ExecutionException, IOException
+    public static DistritoDTO getDistritoByCodigoDistrito(Integer codigo) throws InterruptedException, ExecutionException, IOException
     {
+        DistritoDTO bean = null;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByCodigoDistrito/"+codigo)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -73,14 +78,16 @@ public class DistritoWebService {
 
         else
         {
-            DistritoDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), DistritoDTO.class);
+             bean = JSONUtils.covertFromJsonToObject(response.get().body(), DistritoDTO.class);
             System.out.println(bean);
         }
         response.join();
+        return bean;
     }
 
-    public static String getSumaCantidadPoblacionByDistritoId(long idDistrito) throws InterruptedException, ExecutionException, IOException
+    public static Long getSumaCantidadPoblacionByDistritoId(long idDistrito) throws InterruptedException, ExecutionException, IOException
     {
+        long total = 0;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/SumaCantidadPoblacionByDistritoId/"+idDistrito)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -90,14 +97,22 @@ public class DistritoWebService {
 
         else
         {
-            System.out.println(response.get().body());
+            if (response.get().body().isBlank()) 
+            return total;
+            
+            else
+            {
+                System.out.println(response.get().body());
+                total = Long.parseLong(response.get().body()); 
+            }  
         }
         response.join();
-        return response.get().body();
+        return total;
     }
     
-    public static String getSumaAreaCuadradaByDistritoId(long idDistrito) throws InterruptedException, ExecutionException, IOException
+    public static Double getSumaAreaCuadradaByDistritoId(long idDistrito) throws InterruptedException, ExecutionException, IOException
     {
+        double total = 0;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/SumaAreaCuadradaByDistritoId/"+idDistrito)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -107,19 +122,38 @@ public class DistritoWebService {
 
         else
         {
-            System.out.println(response.get().body());
+            if (response.get().body().isBlank()) 
+             return total;
+            
+            else
+            {
+                System.out.println(response.get().body());
+                total = Double.parseDouble(response.get().body()); 
+            }  
         }
         
         response.join();
-        return response.get().body();
+        return total;
     }
 
-    public static void createDistrito(String nombreDistrito, Integer codigoDistrito) throws InterruptedException, ExecutionException, JsonProcessingException
+    public static List<UnidadDTO> getUnidadByDistritoId(long id) throws InterruptedException, ExecutionException, JsonParseException, JsonMappingException, IOException
+    {
+        HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findUnidadById/"+id)).GET().build();
+        CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
+        response.thenAccept(res -> System.out.println(res));
+        List<UnidadDTO> unidades = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<UnidadDTO>>() {});
+        unidades.forEach(System.out::println);
+        response.join();
+        return unidades;
+    }
+    
+    public static void createDistrito(String nombreDistrito, Integer codigoDistrito,long id) throws InterruptedException, ExecutionException, JsonProcessingException, IOException
     {
         DistritoDTO bean = new DistritoDTO();
         
         bean.setNombreDistrito(nombreDistrito);
         bean.setCodigoDistrito(codigoDistrito);
+        bean.setCanton(CantonWebService.getCantonById(id));
 
         String inputJson = JSONUtils.covertFromObjectToJson(bean);
         HttpRequest request = HttpRequest.newBuilder(URI.create(serviceURL+"/"))

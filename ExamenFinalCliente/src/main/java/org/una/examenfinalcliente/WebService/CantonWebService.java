@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.una.examenfinalcliente.utility.JSONUtils;
 import org.una.examenfinalcliente.DTOs.CantonDTO;
+import org.una.examenfinalcliente.DTOs.DistritoDTO;
 /**
  *
  * @author Adrian
@@ -35,8 +36,9 @@ public class CantonWebService {
         response.join();
     }
 
-    public static void getCantonById(long id) throws InterruptedException, ExecutionException, IOException
+    public static CantonDTO getCantonById(long id) throws InterruptedException, ExecutionException, IOException
     {
+        CantonDTO bean = null;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findById/"+id)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -46,13 +48,14 @@ public class CantonWebService {
 
         else
         {
-            CantonDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), CantonDTO.class);
+            bean = JSONUtils.covertFromJsonToObject(response.get().body(), CantonDTO.class);
             System.out.println(bean);
         }
         response.join();
+        return bean;
     }
     
-    public static void getCantonByNombreCanton(String nombre) throws InterruptedException, ExecutionException, IOException
+    public static List<CantonDTO> getCantonByNombreCanton(String nombre) throws InterruptedException, ExecutionException, IOException
     {
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByNombreCantonAproximateIgnoreCase/"+nombre)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
@@ -60,10 +63,12 @@ public class CantonWebService {
         List<CantonDTO> cantones = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<CantonDTO>>() {});
         cantones.forEach(System.out::println);
         response.join();
+        return cantones;
     }
     
-    public static void getCantonByCodigoCanton(Integer codigo) throws InterruptedException, ExecutionException, IOException
+    public static CantonDTO getCantonByCodigoCanton(Integer codigo) throws InterruptedException, ExecutionException, IOException
     {
+        CantonDTO bean = null;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByCodigoCanton/"+codigo)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -73,14 +78,17 @@ public class CantonWebService {
 
         else
         {
-            CantonDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), CantonDTO.class);
+             bean = JSONUtils.covertFromJsonToObject(response.get().body(), CantonDTO.class);
             System.out.println(bean);
+            
         }
         response.join();
+        return bean;
     }
 
-    public static String getSumaCantidadPoblacionByCantonId(long idCanton) throws InterruptedException, ExecutionException, IOException
+    public static Long getSumaCantidadPoblacionByCantonId(long idCanton) throws InterruptedException, ExecutionException, IOException
     {
+        long total = 0;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/SumaCantidadPoblacionByCantonId/"+idCanton)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -90,14 +98,22 @@ public class CantonWebService {
 
         else
         {
-            System.out.println(response.get().body());
+           if (response.get().body().isBlank()) 
+            return total;
+            
+            else
+            {
+                System.out.println(response.get().body());
+                total = Long.parseLong(response.get().body()); 
+            }  
         }
         response.join();
-        return response.get().body();
+        return total;
     }
     
-    public static String getSumaAreaCuadradaByCantonId(long idCanton) throws InterruptedException, ExecutionException, IOException
+    public static Double getSumaAreaCuadradaByCantonId(long idCanton) throws InterruptedException, ExecutionException, IOException
     {
+        double total = 0;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/SumaAreaCuadradaByCantonId/"+idCanton)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -107,19 +123,40 @@ public class CantonWebService {
 
         else
         {
-            System.out.println(response.get().body());
+             if (response.get().body().isBlank()) 
+             return total;
+            
+            else
+            {
+                System.out.println(response.get().body());
+                total = Double.parseDouble(response.get().body()); 
+            }  
         }
         
         response.join();
-        return response.get().body();
+        
+        return total;
+    }
+    
+    public static List<DistritoDTO> getDistritoByCantonId(long id) throws InterruptedException, ExecutionException, JsonParseException, JsonMappingException, IOException
+    {
+        HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findDistritoById/"+id)).GET().build();
+        CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
+        response.thenAccept(res -> System.out.println(res));
+        List<DistritoDTO> distritos = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<DistritoDTO>>() {});
+        distritos.forEach(System.out::println);
+        response.join();
+        return distritos;
     }
 
-    public static void createCanton(String nombreCanton, Integer codigoCanton) throws InterruptedException, ExecutionException, JsonProcessingException
+    public static void createCanton(String nombreCanton, Integer codigoCanton, long id) throws InterruptedException, ExecutionException, JsonProcessingException, IOException
     {
         CantonDTO bean = new CantonDTO();
         
         bean.setNombreCanton(nombreCanton);
         bean.setCodigoCanton(codigoCanton);
+        
+        bean.setProvincia(ProvinciaWebService.getProvinciaById(id));
 
         String inputJson = JSONUtils.covertFromObjectToJson(bean);
         HttpRequest request = HttpRequest.newBuilder(URI.create(serviceURL+"/"))

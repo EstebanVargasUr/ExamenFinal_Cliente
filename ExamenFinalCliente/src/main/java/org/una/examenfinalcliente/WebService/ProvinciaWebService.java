@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import org.una.examenfinalcliente.DTOs.CantonDTO;
 import org.una.examenfinalcliente.utility.JSONUtils;
 import org.una.examenfinalcliente.DTOs.ProvinciaDTO;
 /**
@@ -48,6 +49,9 @@ public class ProvinciaWebService {
 
         else
         {
+            if (response.get().body().isBlank()) {
+                return null;
+            }
             bean = JSONUtils.covertFromJsonToObject(response.get().body(), ProvinciaDTO.class);
             System.out.println(bean);
         }
@@ -55,7 +59,7 @@ public class ProvinciaWebService {
         return bean;
     }
     
-    public static void getProvinciaByNombreProvincia(String nombre) throws InterruptedException, ExecutionException, IOException
+    public static List<ProvinciaDTO> getProvinciaByNombreProvincia(String nombre) throws InterruptedException, ExecutionException, IOException
     {
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByNombreProvinciaAproximateIgnoreCase/"+nombre)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
@@ -63,10 +67,12 @@ public class ProvinciaWebService {
         List<ProvinciaDTO> provincias = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<ProvinciaDTO>>() {});
         provincias.forEach(System.out::println);
         response.join();
+        return provincias;
     }
     
-    public static void getProvinciaByCodigoProvincia(Integer codigo) throws InterruptedException, ExecutionException, IOException
+    public static ProvinciaDTO getProvinciaByCodigoProvincia(Integer codigo) throws InterruptedException, ExecutionException, IOException
     {
+        ProvinciaDTO bean = null ;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByCodigoProvincia/"+codigo)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -76,10 +82,11 @@ public class ProvinciaWebService {
 
         else
         {
-            ProvinciaDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), ProvinciaDTO.class);
+            bean = JSONUtils.covertFromJsonToObject(response.get().body(), ProvinciaDTO.class);
             System.out.println(bean);
         }
         response.join();
+        return bean;
     }
 
     public static Long getSumaCantidadPoblacionByProvinciaId(long idProvincia) throws InterruptedException, ExecutionException, IOException
@@ -133,6 +140,17 @@ public class ProvinciaWebService {
         response.join();
         
         return total;
+    }
+    
+    public static List<CantonDTO> getCantonByProvinciaId(long id) throws InterruptedException, ExecutionException, JsonParseException, JsonMappingException, IOException
+    {
+        HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findCantonById/"+id)).GET().build();
+        CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
+        response.thenAccept(res -> System.out.println(res));
+        List<CantonDTO> cantones = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<CantonDTO>>() {});
+        cantones.forEach(System.out::println);
+        response.join();
+        return cantones;
     }
 
     public static void createProvincia(String nombreProvincia, Integer codigoProvincia) throws InterruptedException, ExecutionException, JsonProcessingException

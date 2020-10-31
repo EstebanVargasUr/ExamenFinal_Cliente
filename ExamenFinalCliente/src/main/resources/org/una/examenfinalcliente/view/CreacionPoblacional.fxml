@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="root" alignment="CENTER" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #6F9F4B;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.examenfinalcliente.controllersView.CreacionPoblacionalController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="620.0" prefWidth="1405.0" style="-fx-background-color: rgba(0,0,0,0.3); -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox alignment="CENTER" prefHeight="118.0" prefWidth="1000.0" spacing="50.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="0.0" prefWidth="778.0" text="Datos de censos poblacionales" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="38.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox prefHeight="126.0" prefWidth="880.0" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefHeight="45.0" prefWidth="880.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="167.0" prefWidth="1819.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="237.0" text="Crear:" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="System Bold" size="32.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cbAreaCrear" onAction="#cbAreaCrearAction" prefHeight="30.0" prefWidth="115.0" promptText="Provincia" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="82.0" prefWidth="880.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="383.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="237.0" text="Nombre" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="32.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtNombre" prefHeight="30.0" prefWidth="518.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin></TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="80.0" prefWidth="383.0" spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="237.0" text="Código" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="32.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtCodigo" prefHeight="30.0" prefWidth="518.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="68.0" prefHeight="80.0" prefWidth="383.0" spacing="10.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="110.0" text="ID de:" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="32.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="60.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="lblIdForanea" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="114.0" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtIDForanea" disable="true" prefHeight="30.0" prefWidth="518.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin></VBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblAreaCuadrada" alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="214.0" text="Area cuadrada:" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtAreaCuadrada" prefHeight="30.0" prefWidth="241.0" visible="false" />
+                  <Label fx:id="lblPoblacion" alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="214.0" text="Poblacion" textAlignment="CENTER" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtPoblacion" prefHeight="30.0" prefWidth="241.0" visible="false" />
+               </children>
+               <VBox.margin>
+                  <Insets right="20.0" top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="405.0" prefWidth="880.0" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button maxHeight="50.0" minHeight="50.0" mnemonicParsing="false" onMouseClicked="#btnGuardarAction" prefHeight="20.0" prefWidth="190.0" text="Guardar">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button maxHeight="50.0" minHeight="50.0" mnemonicParsing="false" onAction="#btnVolverAction" onMouseClicked="#btnGuardarAction" prefHeight="20.0" prefWidth="190.0" text="Volver">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+</VBox>
