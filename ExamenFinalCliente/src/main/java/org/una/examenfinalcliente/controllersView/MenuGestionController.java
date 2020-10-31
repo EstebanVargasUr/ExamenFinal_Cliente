@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.una.examenfinalcliente.utility.FlowController;
+import org.una.examenfinalcliente.utility.FlowController;
 
 public class MenuGestionController extends Controller implements Initializable {
 
@@ -45,5 +46,6 @@ public class MenuGestionController extends Controller implements Initializable {
 
     @FXML
     private void cobros(MouseEvent event) {
+        FlowController.getInstance().goView("CobrosPendientes");
     }
 }

@@ -11,87 +11,74 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.examenfinalcliente.controllersView.CensoPoblacionalController">
+<VBox fx:id="root" alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #6F9F4B;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.examenfinalcliente.controllersView.CensoPoblacionalController">
    <children>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="620.0" prefWidth="1405.0" style="-fx-background-color: rgba(0,0,0,0.3); -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
+      <VBox alignment="CENTER" prefHeight="620.0" prefWidth="1405.0" style="-fx-background-color: rgba(0,0,0,0.3); -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
          <children>
-            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="880.0" spacing="50.0" VBox.vgrow="ALWAYS">
+            <VBox alignment="CENTER" maxHeight="150.0" prefHeight="50.0" prefWidth="1819.0" spacing="50.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="71.0" prefWidth="778.0" text="Datos de censos poblacional" textFill="WHITE" VBox.vgrow="ALWAYS">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="71.0" prefWidth="778.0" text="Datos de censos poblacionales" textFill="WHITE" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="42.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <VBox prefHeight="126.0" prefWidth="880.0">
+            <VBox prefHeight="126.0" prefWidth="880.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox prefHeight="45.0" prefWidth="880.0">
+                  <VBox prefHeight="45.0" prefWidth="880.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="84.0" prefWidth="880.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="167.0" prefWidth="1819.0" spacing="30.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="84.0" prefWidth="247.0">
-                                 <children>
-                                    <HBox prefHeight="84.0" prefWidth="17.0" />
-                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="237.0" text="Ordenar por:" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="32.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <ComboBox prefHeight="26.0" prefWidth="239.0" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="237.0" text="Ordenar por:" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="System Bold" size="32.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cbOrdenar" disable="true" prefHeight="30.0" prefWidth="280.0" promptText="Seleccione un método de ordenado" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnCrear" mnemonicParsing="false" onMouseClicked="#btnCrearAction" prefHeight="48.0" prefWidth="297.0" text="Crear entidad" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
                            </children>
                         </HBox>
-                        <VBox prefHeight="58.0" prefWidth="880.0" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="82.0" prefWidth="880.0">
+                  <VBox prefHeight="82.0" prefWidth="880.0" spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="80.0" prefWidth="383.0">
+                        <HBox alignment="CENTER" prefHeight="80.0" prefWidth="383.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="70.0" prefWidth="248.0">
-                                 <children>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="279.0" text="Filtrar por:" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="32.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="70.0" prefWidth="237.0">
-                                 <children>
-                                    <ComboBox prefHeight="26.0" prefWidth="287.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="70.0" prefWidth="276.0">
-                                 <children>
-                                    <HBox prefHeight="100.0" prefWidth="11.0" />
-                                    <HBox prefHeight="100.0" prefWidth="85.0" />
-                                    <HBox prefHeight="70.0" prefWidth="43.0" />
-                                    <TextField prefHeight="26.0" prefWidth="315.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_CENTER" prefHeight="70.0" prefWidth="119.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" text="Filtrar">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </HBox>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="237.0" text="Filtrar por:" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="32.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cbFiltro" prefHeight="30.0" prefWidth="280.0" promptText="Seleccione un método de filtrado" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="cbAreaFiltro" prefHeight="30.0" prefWidth="115.0" promptText="Seleccionar" />
+                              <TextField fx:id="txtFiltro" prefHeight="30.0" prefWidth="280.0" promptText="Filtrado por datos de provincias" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnFiltrar" mnemonicParsing="false" onMouseClicked="#btnFiltroClick" prefHeight="0.0" prefWidth="102.0" text="Filtrar" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Button>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </children></VBox>
-            <VBox alignment="CENTER" prefHeight="405.0" prefWidth="880.0">
+            <VBox alignment="CENTER" prefHeight="405.0" prefWidth="880.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TreeTableView fx:id="TableView1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="353.0" prefWidth="850.0" VBox.vgrow="ALWAYS">
+                  <TreeTableView fx:id="TableView1" prefHeight="354.0" prefWidth="1045.0" VBox.vgrow="ALWAYS">
                     <columns>
                       <TreeTableColumn fx:id="Col1" minWidth="-Infinity" prefWidth="300.0" style="-fx-alignment: center;" text="Tipo de área" />
-                        <TreeTableColumn fx:id="Col2" prefWidth="75.0" style="-fx-alignment: center;" text="Nombre" visible="false" />
+                        <TreeTableColumn fx:id="Col2" prefWidth="75.0" style="-fx-alignment: center;" text="Nombre" />
                         <TreeTableColumn fx:id="Col3" prefWidth="75.0" style="-fx-alignment: center;" text="Codigo" />
                         <TreeTableColumn fx:id="Col4" prefWidth="75.0" style="-fx-alignment: center;" text="Población" />
                         <TreeTableColumn fx:id="Col5" prefWidth="75.0" style="-fx-alignment: center;" text="Área en metros cuadrados" />
@@ -99,6 +86,9 @@
                      <columnResizePolicy>
                         <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
+                     <VBox.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </VBox.margin>
                   </TreeTableView>
                </children>
             </VBox>
@@ -109,6 +99,6 @@
       </VBox>
    </children>
    <padding>
-      <Insets bottom="50.0" left="200.0" right="200.0" top="50.0" />
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
    </padding>
 </VBox>
