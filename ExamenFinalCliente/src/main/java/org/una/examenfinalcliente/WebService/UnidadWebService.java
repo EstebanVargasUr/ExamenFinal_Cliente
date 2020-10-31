@@ -35,8 +35,9 @@ public class UnidadWebService {
         response.join();
     }
 
-    public static void getUnidadById(long id) throws InterruptedException, ExecutionException, IOException
+    public static UnidadDTO getUnidadById(long id) throws InterruptedException, ExecutionException, IOException
     {
+        UnidadDTO bean = null;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findById/"+id)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -46,13 +47,14 @@ public class UnidadWebService {
 
         else
         {
-            UnidadDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), UnidadDTO.class);
+            bean = JSONUtils.covertFromJsonToObject(response.get().body(), UnidadDTO.class);
             System.out.println(bean);
         }
         response.join();
+        return bean;
     }
     
-    public static void getUnidadByNombreUnidad(String nombre) throws InterruptedException, ExecutionException, IOException
+    public static List<UnidadDTO> getUnidadByNombreUnidad(String nombre) throws InterruptedException, ExecutionException, IOException
     {
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByNombreUnidadAproximateIgnoreCase/"+nombre)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
@@ -60,10 +62,12 @@ public class UnidadWebService {
         List<UnidadDTO> unidades = JSONUtils.convertFromJsonToList(response.get().body(), new TypeReference<List<UnidadDTO>>() {});
         unidades.forEach(System.out::println);
         response.join();
+        return unidades;
     }
     
-    public static void getUnidadByCodigoUnidad(Integer codigo) throws InterruptedException, ExecutionException, IOException
+    public static UnidadDTO getUnidadByCodigoUnidad(Integer codigo) throws InterruptedException, ExecutionException, IOException
     {
+        UnidadDTO bean = null;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/findByCodigoUnidad/"+codigo)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -73,14 +77,16 @@ public class UnidadWebService {
 
         else
         {
-            UnidadDTO bean = JSONUtils.covertFromJsonToObject(response.get().body(), UnidadDTO.class);
+            bean = JSONUtils.covertFromJsonToObject(response.get().body(), UnidadDTO.class);
             System.out.println(bean);
         }
         response.join();
+        return bean;
     }
 
-    public static String getSumaCantidadPoblacionByUnidadId(long idUnidad) throws InterruptedException, ExecutionException, IOException
+    public static Long getSumaCantidadPoblacionByUnidadId(long idUnidad) throws InterruptedException, ExecutionException, IOException
     {
+        long total = 0;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/SumaUnidadCantidadPoblacion/"+idUnidad)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -90,14 +96,22 @@ public class UnidadWebService {
 
         else
         {
-            System.out.println(response.get().body());
+            if (response.get().body().isBlank()) 
+             return total;
+            
+            else
+            {
+                System.out.println(response.get().body());
+                total = Long.parseLong(response.get().body()); 
+            }  
         }
         response.join();
-        return response.get().body();
+        return total;
     }
     
-    public static String getSumaAreaCuadradaByUnidadId(long idUnidad) throws InterruptedException, ExecutionException, IOException
+    public static Double getSumaAreaCuadradaByUnidadId(long idUnidad) throws InterruptedException, ExecutionException, IOException
     {
+        double total = 0;
         HttpRequest req = HttpRequest.newBuilder(URI.create(serviceURL+"/SumaUnidadAreaCuadrada/"+idUnidad)).GET().build();
         CompletableFuture<HttpResponse<String>> response = client.sendAsync(req, BodyHandlers.ofString());
         response.thenAccept(res -> System.out.println(res));
@@ -107,19 +121,29 @@ public class UnidadWebService {
 
         else
         {
-            System.out.println(response.get().body());
+           if (response.get().body().isBlank()) 
+             return total;
+            
+            else
+            {
+                System.out.println(response.get().body());
+                total = Double.parseDouble(response.get().body()); 
+            }  
         }
         
         response.join();
-        return response.get().body();
+        return total;
     }
 
-    public static void createUnidad(String nombreUnidad, Integer codigoUnidad) throws InterruptedException, ExecutionException, JsonProcessingException
+    public static void createUnidad(String nombreUnidad, Integer codigoUnidad, long id, long poblacion, double area) throws InterruptedException, ExecutionException, JsonProcessingException, IOException
     {
         UnidadDTO bean = new UnidadDTO();
         
         bean.setNombreUnidad(nombreUnidad);
         bean.setCodigoUnidad(codigoUnidad);
+        bean.setCantidadPoblacion(poblacion);
+        bean.setAreaEnMetrosCuadrados(area);
+        bean.setDistrito(DistritoWebService.getDistritoById(id));
 
         String inputJson = JSONUtils.covertFromObjectToJson(bean);
         HttpRequest request = HttpRequest.newBuilder(URI.create(serviceURL+"/"))

@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.examenfinalcliente.controllersView.VistaProyectosTareasController">
+<VBox fx:id="root" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../resources/WinStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.examenfinalcliente.controllersView.VistaProyectosTareasController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar style="-fx-background-color: #21C27F;" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="Ventanas">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Inicio" />
-                  <Menu mnemonicParsing="false" text="Proyectos">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Ver" />
-                        <MenuItem mnemonicParsing="false" text="Crear" />
-                    </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Cobros">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Ver" />
-                        <MenuItem mnemonicParsing="false" text="Crear" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Población">
-                    <items>
-                  <MenuItem mnemonicParsing="false" text="Ver" />
-                      <MenuItem mnemonicParsing="false" text="Crear" />
-                    </items>
-                  </Menu>
-          </items>
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#menu" text="Menu Principal" />
+               </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Funciones">
           <items>
+                  <MenuItem mnemonicParsing="false" onAction="#colorAvance" text="Agregar Color de avances" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#crearProyecto" text="Crear Proyecto" />
+                  <MenuItem mnemonicParsing="false" onAction="#crearTarea" text="Crear Tarea" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Modificar" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Eliminar" />
@@ -54,6 +46,22 @@
         </Menu>
       </menus>
     </MenuBar>
+      <HBox alignment="CENTER_RIGHT" prefWidth="1280.0">
+         <children>
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ellipsisString="" onMouseClicked="#actualizar" prefHeight="42.0" prefWidth="65.0" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/refresh.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets bottom="5.0" right="20.0" top="5.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
       <VBox alignment="CENTER" prefHeight="405.0" prefWidth="880.0" VBox.vgrow="ALWAYS">
          <children>
             <TreeTableView fx:id="tabla" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="353.0" VBox.vgrow="ALWAYS">
@@ -73,18 +81,36 @@
             </TreeTableView>
          </children>
       </VBox>
-      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="640.0" spacing="50.0">
+      <HBox fx:id="selectorColor" alignment="CENTER" prefHeight="50.0" prefWidth="1280.0" spacing="20.0" style="-fx-background-color: #5AF69E;" visible="false">
          <children>
-            <JFXColorPicker prefHeight="30.0" prefWidth="150.0" HBox.hgrow="ALWAYS">
+            <Label fx:id="lbl_escojerColor" styleClass="label1" text="Escoja el color:" />
+            <ColorPicker fx:id="cp_color" />
+            <Label fx:id="lbl_rangoInicial" styleClass="label1" text="Rango Inicial:" />
+            <JFXTextField fx:id="txt_rangoInicial" maxWidth="200.0" prefHeight="30.0" prefWidth="150.0" promptText="Digite el porcentaje minimo" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <Label fx:id="lbl_rangoFinal" styleClass="label1" text="Rango Final:" />
+            <JFXTextField fx:id="txt_rangoFinal" maxWidth="200.0" prefHeight="30.0" prefWidth="150.0" promptText="Digite el porcentaje Maximo" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <JFXButton alignment="CENTER" buttonType="RAISED" onMouseClicked="#cancelarColor" prefHeight="39.0" prefWidth="100.0" text="Cancelar" HBox.hgrow="ALWAYS">
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets />
                </HBox.margin>
-            </JFXColorPicker>
-            <JFXTextField fx:id="ini" maxWidth="200.0" prefHeight="30.0" prefWidth="150.0" promptText="Rango Inicial" HBox.hgrow="ALWAYS" />
-            <JFXTextField maxWidth="200.0" prefHeight="30.0" prefWidth="150.0" promptText="Rango Final" HBox.hgrow="ALWAYS" />
-            <JFXButton alignment="CENTER" buttonType="RAISED" prefHeight="30.0" prefWidth="150.0" text="Guardar" HBox.hgrow="ALWAYS">
+               <styleClass>
+                  <String fx:value="jfx-buttonStandard1" />
+                  <String fx:value="label1" />
+               </styleClass>
+            </JFXButton>
+            <JFXButton alignment="CENTER" buttonType="RAISED" onMouseClicked="#guardarColor" prefHeight="39.0" prefWidth="100.0" text="Guardar">
+               <styleClass>
+                  <String fx:value="jfx-buttonStandard1" />
+                  <String fx:value="label1" />
+               </styleClass>
                <HBox.margin>
-                  <Insets right="20.0" />
+                  <Insets />
                </HBox.margin>
             </JFXButton>
          </children>

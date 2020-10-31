@@ -38,7 +38,7 @@ public class TareaWebService {
     }
     
     public static void createTarea(String descripcion, Date fechaInicio, Date fechaFinalizacion,
-    Short importancia, Short urgencia, Integer prioridad, Integer porcentajeAvance, ProyectoDTO proyecto) throws InterruptedException, ExecutionException, JsonProcessingException
+    Short importancia, Short urgencia, Integer porcentajeAvance, ProyectoDTO proyecto) throws InterruptedException, ExecutionException, JsonProcessingException
     {
         TareaDTO bean = new TareaDTO();
         
@@ -47,7 +47,6 @@ public class TareaWebService {
         bean.setFechaFinalizacion(fechaFinalizacion);
         bean.setImportancia(importancia);
         bean.setUrgencia(urgencia);
-        bean.setPrioridad(prioridad);
         bean.setPorcentajeAvance(porcentajeAvance);   
         bean.setProyecto(proyecto);
 
