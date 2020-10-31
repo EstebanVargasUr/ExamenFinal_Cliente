@@ -96,10 +96,10 @@ public class CobrosController extends Controller implements Initializable {
                     clientesModel.get(i).getCedula(), clientesModel.get(i).getTelefono(),
                     "-","-","-","-","-","-"));
 
-            List<ClienteTipoServicioDTO> clientesServiceModel = ClienteTipoServicioWebService.getAllClientesTiposServicios();
+            List<ClienteTipoServicioDTO> clientesTipoModel = ClienteTipoServicioWebService.getAllClientesTiposServicios();
             List<MembresiaDTO> membresias = MembresiaWebService.getMembresiasByClienteId(clientesModel.get(i).getId());
             for(int j = 0; j < membresias.toArray().length; j++){
-                Membresia = new TreeItem<>(new Cobro("Membresia","-","-","-",clientesServiceModel.get(j).getTipoServicio().getNombre(),membresias.get(j).getMonto()+"",membresias.get(j).getPeriodicidad()+"",
+                Membresia = new TreeItem<>(new Cobro("Membresia","-","-","-",clientesTipoModel.get(j).getTipoServicio().getNombre(),membresias.get(j).getMonto()+"",membresias.get(j).getPeriodicidad()+"",
                         membresias.get(j).getFechaRegistro()+"","-","-"));
 
                 List<CobroPendienteDTO> cobros = CobroPendienteWebService.getCobrosPendientesByMembresiaId(membresias.get(i).getId());
